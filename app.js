@@ -1,45 +1,54 @@
-"use strict";
+let gifts = [
+  { idea: "A house", value: "Gift1" },
+  { idea: "A vacation", value: "Gift2" },
+  { idea: "A rose", value: "Gift3" },
+  { idea: "A photoalbum", value: "Gift4" },
+];
 
-// When the window is loaded, set up initial configurations.
-window.onload = function () {
-  initializeGiftIdeasDropdown(); // Populate the dropdown with gift options.
-  configureEventHandlers(); // Configure event handlers for UI elements.
-};
-
-// Populates the dropdown with predefined gift options.
+// Function to initialize the dropdown with gift options
 function initializeGiftIdeasDropdown() {
-  let gifts = [
-    { idea: "A house", value: "Gift1" },
-    { idea: "A vacation", value: "Gift2" },
-    { idea: "A rose", value: "Gift3" },
-    { idea: "A photoalbum", value: "Gift4" },
-  ];
-
   const dropdown = document.getElementById("giftIdeas");
+  dropdown.innerHTML = ""; // Clear existing options
   gifts.forEach((gift) => {
     let option = new Option(gift.idea, gift.value);
     dropdown.appendChild(option);
   });
 }
 
-// Sets the default dropdown value and assigns change event handler.
-function configureEventHandlers() {
-  const giftList = document.getElementById("giftIdeas");
-  giftList.value = "Gift4"; // Set a default value if applicable.
-  giftList.onchange = displaySelectedGift; // Assign handler for change event.
+// Function to filter dropdown based on search input
+function filterDropdown() {
+  const searchInput = document
+    .getElementById("mySearchField")
+    .value.toLowerCase();
+  const dropdown = document.getElementById("giftIdeas");
+  dropdown.innerHTML = ""; // Clear existing options
+  const filteredGifts = gifts.filter((gift) =>
+    gift.idea.toLowerCase().includes(searchInput)
+  );
+  filteredGifts.forEach((gift) => {
+    let option = new Option(gift.idea, gift.value);
+    dropdown.appendChild(option);
+  });
+  if (filteredGifts.length > 0) {
+    dropdown.value = filteredGifts[0].value; // Select the first matching option
+  }
 }
 
-// Displays the selected gift in the 'message' element.
+// Function to display the selected gift idea
 function displaySelectedGift() {
   const giftList = document.getElementById("giftIdeas");
   const selectedValue = giftList.value;
-  document.getElementById("message").innerText = selectedValue;
+  document.getElementById("message").innerText =
+    "Selected gift idea: " + selectedValue;
 }
 
-// (Optional) Function to clear filters, if required by the application.
+// Function to clear filters and reset dropdown
 function clearFilters() {
-  const giftList = document.getElementById("giftIdeas");
-  const searchField = document.getElementById("mySearchField");
-  giftList.value = null; // Reset dropdown.
-  searchField.value = ""; // Clear any text in the search field.
+  document.getElementById("mySearchField").value = "";
+  initializeGiftIdeasDropdown(); // Reset dropdown to all options
 }
+
+// Initialize dropdown on page load
+window.onload = function () {
+  initializeGiftIdeasDropdown();
+};
