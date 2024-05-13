@@ -7,7 +7,8 @@ window.onload = function () {
   //Default option
   const giftList = document.getElementById("giftIdeas");
   // giftList.value = "Gift4";
-  giftList.value = null;
+  // giftList.value = null;
+  giftList.onchange = changeTheDropDownValue;
 };
 
 function initLoadDropdownGiftIdeas() {
@@ -52,9 +53,18 @@ function DisplayItem() {
   }
 }
 
+function changeTheDropDownValue() {
+  //grab the giftlist
+  const giftList = document.getElementById("giftIdeas");
+
+  //let selected value
+  let selectedvalue = giftList.value;
+  document.getElementById("message").innerText = selectedvalue;
+}
+
 function ClearFilters() {
   const giftList = document.getElementById("giftIdeas");
-  document.getElementById("mySearchField").value = "";
-  // giftList.value = "Gift4";
   giftList.value = null;
+  const searchfield = document.getElementById("mySearchField");
+  searchfield.value = "";
 }
